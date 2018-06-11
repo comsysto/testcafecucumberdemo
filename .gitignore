@@ -1,0 +1,25 @@
+### Compiled output
+/dist
+/tmp
+/out-tsc
+reports/*
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+*.eml
+
+# System Files
+.DS_Store
+Thumbs.db
+
+### visual code
+.vscode/
+
+### Node_modules
+node_modules
+
+### Jenkins home folder
+jenkins_home/
