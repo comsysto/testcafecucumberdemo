@@ -24,7 +24,7 @@ pipeline {
   post {
     always{
       echo 'Publishing reports'
-      cucumber fileIncludePattern: '**/*cucumber_report.json', sortingMethod: 'ALPHABETICAL'
+      cucumber jsonReportDirectory: "./reports/", fileIncludePattern: 'cucumber_report.json', sortingMethod: 'ALPHABETICAL'
       publishHTML target:[allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'reports/', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '']
       // Close open browsers
       sh 'pkill -f chrome || true'
