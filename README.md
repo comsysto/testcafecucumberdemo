@@ -6,30 +6,44 @@
 
 Demo that contains a working Jenkins Docker container with included node.js and Chrome installations.
 
-### How to **"build"** the image
+# Jenkins Stuff
 
-npm run buildJenkins
+## How to **"build"** the image
 
-### How to **"start"** Jenkins
+```npm run buildJenkins```
 
-npm run startJenkins
+## How to **"start"** Jenkins
 
-### How to **"stop"** Jenkins
+```npm run startJenkins```
 
-npm run stopJenkins
+## How to **"stop"** Jenkins
 
-### What to do after you start Jenkins?
+```npm run stopJenkins```
 
-Access it on "http://localhost:8080". Jenkins will be setup up with all necessary plugins installed and with the default admin user created.
-You can update the list of plugins here: "src/config/plugins.txt" 
+## What to do after you start Jenkins?
 
-Default username "admin" and password "admin"
+Access it on **http://localhost:8080**
 
-After you log in, use the default user or create your self a new one.
+Jenkins will be setup up with all necessary plugins installed.
+You can update the list of plugins here: **src/config/plugins.txt**
 
-For now, you need to configure the pipeline manually!
+Jenkins will have a default admin user as well. Default username **admin** and password **admin**
 
-### How to run the tests from command line (host):
+You can choose to disable this by editing **src/bin/security.groovy**
+
+Jenkins has a default job configured that runs this project and produces reports. You can add more jobs here: **src/config/jobs**
+
+Click on the **testcafe-demo** pipeline and start the build by clicking **Build Now**
+
+# Testing Stuff
+
+## How to run the tests from command line (host):
+
+### Install dependencies
+
+```npm install```
+
+### Run tests
 
 ```npm run e2e```
 
@@ -38,5 +52,11 @@ For now, you need to configure the pipeline manually!
 ```npm run testJsonSlow```
 
 ### How to run the tests from command line (container):
+
+### Install dependencies
+
+```npm install```
+
+### Run tests
 
 ```npm run e2edocker```
