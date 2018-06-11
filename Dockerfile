@@ -79,9 +79,10 @@ RUN chmod +x /opt/google/chrome/google-chrome
 
 ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
 
-# Copy the configuration script
+# Copy the configuration scripts
 
 COPY src/bin/security.groovy /usr/share/jenkins/ref/init.groovy.d/security.groovy
+COPY src/bin/csp.groovy /usr/share/jenkins/ref/init.groovy.d/csp.groovy
 
 # Install Jenkins plugins
 
