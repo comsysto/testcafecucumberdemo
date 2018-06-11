@@ -2,8 +2,8 @@
   "name": "jenkins-testcafe",
   "version": "0.0.1",
   "license": "MIT",
-  "jenkinsJobPath": "jenkins_home/jobs/testcafe-demo",
-  "jenkinsJobConfigPath": "src/config/jobs/testcafe-demo/config.xml",
+  "jenkinsJobPath": "jenkins_home/jobs/",
+  "jenkinsJobConfigPath": "src/config/jobs/",
   "scripts": {
     "testJsonChrome": "./node_modules/.bin/cucumber-js --world-parameters {\\\"browsers\\\":[\\\"chrome\\\"]\\,\\\"exampleUrl\\\":\\\"http://devexpress.github.io/testcafe/example/\\\"\\} --format json:reports/cucumber_report.json",
     "testJsonFirefox": "./node_modules/.bin/cucumber-js --world-parameters {\\\"browsers\\\":[\\\"firefox\\\"]\\,\\\"exampleUrl\\\":\\\"http://devexpress.github.io/testcafe/example\\\"\\} --format json:reports/cucumber_report.json",
@@ -12,7 +12,7 @@
     "remoteJsonTest": "./node_modules/.bin/cucumber-js --world-parameters {\\\"options\\\":{\\\"remote\\\":true\\,\\\"speed\\\":0.1}\\,\\\"exampleUrl\\\":\\\"http://devexpress.github.io/testcafe/example\\\"\\} --format json:reports/cucumber_report.json",
     "e2e": "npm run testJsonChrome; npm run generateHtmlReport",
     "e2edocker": "xvfb-run --server-num=99 --server-args='-ac -screen 0 1024x768x16' npm run e2e",
-    "buildJenkins": "mkdir -p $npm_package_jenkinsJobPath && cp src/config/jobs/testcafe-demo/config.xml $npm_package_jenkinsJobPath && docker build -t jenkinstescafe .",
+    "buildJenkins": "mkdir -p $npm_package_jenkinsJobPath && cp -Ra src/config/jobs/* $npm_package_jenkinsJobPath && docker build -t jenkinstescafe .",
     "startJenkins": "_pwd=\"$(pwd)\" && docker run -d -p 8080:8080 -p 50000:50000 -v $_pwd/jenkins_home:/var/jenkins_home jenkinstescafe:latest",
     "stopJenkins": "docker stop $(docker ps -q --filter ancestor=jenkinstescafe)"
   },
