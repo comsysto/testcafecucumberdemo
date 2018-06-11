@@ -10,6 +10,9 @@
     <img alt="Tested with TestCafe" src="https://img.shields.io/badge/tested%20with-TestCafe-2fa4cf.svg">
 </a>
 
+<a href="https://cucumber.io">
+    <img src="https://img.shields.io/badge/tested%20with-Cucumber-green.svg">
+</a>
 
 
 # TestCafe and Cucumber.js Demo
