@@ -1,4 +1,4 @@
-Feature: Peter asks him self, am I Petr Parker?
+Feature: Peter asks him self, am I Peter Parker?
  He wishes to type in his name and after that he needs to be presented a valid opinion
 	upon the entered data.
 
