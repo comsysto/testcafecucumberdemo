@@ -10,6 +10,7 @@
     "testJsonSlow": "./node_modules/.bin/cucumber-js --world-parameters {\\\"options\\\":{\\\"speed\\\":0.5}\\,\\\"browsers\\\":[\\\"chrome\\\"]\\,\\\"exampleUrl\\\":\\\"http://devexpress.github.io/testcafe/example\\\"\\} --format json:reports/cucumber_report.json",
     "generateHtmlReport": "node src/reporters/html/htmlGenerator.js",
     "remoteJsonTest": "./node_modules/.bin/cucumber-js --world-parameters {\\\"options\\\":{\\\"remote\\\":true\\,\\\"speed\\\":0.1}\\,\\\"exampleUrl\\\":\\\"http://devexpress.github.io/testcafe/example\\\"\\} --format json:reports/cucumber_report.json",
+    "testChromeSafariParalel": "./node_modules/.bin/cucumber-js --world-parameters {\\\"browsers\\\":[\\\"chrome\\\",\\\"safari\\\"]\\,\\\"exampleUrl\\\":\\\"http://devexpress.github.io/testcafe/example/\\\"\\} --format json:reports/cucumber_report.json",
     "e2e": "npm run testJsonChrome; npm run generateHtmlReport",
     "e2edocker": "xvfb-run --server-num=99 --server-args='-ac -screen 0 1024x768x16' npm run e2e",
     "buildJenkins": "mkdir -p $npm_package_jenkinsJobPath && cp -Ra src/config/jobs/* $npm_package_jenkinsJobPath && docker build -t jenkinstescafe .",
