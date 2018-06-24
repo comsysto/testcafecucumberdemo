@@ -102,9 +102,3 @@ RUN npm install -g @angular/cli 2>/dev/null
 
 RUN npm update
 RUN npm rebuild node-sass
-
-
-USER root
-
-RUN mkdir /opt/project
-COPY project /opt/project
