@@ -1,6 +1,4 @@
-var Given = require('cucumber');
-var When = require('cucumber');
-var Then = require('cucumber');
+var { Given, When, Then } = require('cucumber');
 
 var Selector = require('testcafe').Selector;
 
