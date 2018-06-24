@@ -10,12 +10,16 @@ pipeline {
   }
 
   stages {
-
-    stage('Run  e2e Tests') {
+    stage('Build') {
       steps {
         echo "Building ${env.BUILD_ID}"
         sh 'mkdir -p reports'
         sh 'npm install'
+      }
+    }
+    stage('Run  e2e Tests') {
+      steps {
+        echo "Running e2e Tests with TestCafe and CucumberJS"
         sh 'npm run e2edocker'
       }
     }
@@ -23,9 +27,9 @@ pipeline {
 
   post {
     always{
-      echo 'Publishing reports'
-      cucumber jsonReportDirectory: "./reports/", fileIncludePattern: 'cucumber_report.json', sortingMethod: 'ALPHABETICAL'
-      publishHTML target:[allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'reports/', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '']
+      echo 'Publishing HTML reports'
+      publishHTML target:[allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'reports/combined', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '']
+
       // Close open browsers
       sh 'pkill -f chrome || true'
       sh 'pkill -f firefox || true'
