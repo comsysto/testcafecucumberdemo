@@ -17,7 +17,7 @@
     "stopBrowsers": "docker stop $(docker ps -qa --filter ancestor=browsers)",
     "buildJenkins": "mkdir -p $npm_package_jenkinsJobPath && cp -Ra $npm_package_jenkinsJobConfigPath/* $npm_package_jenkinsJobPath && docker build -t jenkinstescafe docker/jenkins/",
     "startJenkins": "_pwd=\"$(pwd)\" && docker run -d -p 8080:8080 -p 50000:50000 -v $_pwd/jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkinstescafe:latest",
-    "stopJenkins": "docker stop $(docker ps -qa --filter ancestor=jenkinstescafe)"
+    "stopJenkins": "docker stop $(docker ps -qa --filter ancestor=jenkinstescafe)",
     "buildContainers": "npm run buildBrowsers && npm run buildJenkins"
   },
   "bin": {
