@@ -21,9 +21,9 @@ Demo that contains a working Jenkins Docker container with included node.js and 
 
 # Jenkins Stuff
 
-## How to **"build"** the image
+## How to **"build"** the images
 
-```npm run buildJenkins```
+```npm run buildContainers```
 
 ## How to **"start"** Jenkins
 
