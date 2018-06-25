@@ -2,8 +2,8 @@
     <img src="https://img.shields.io/badge/comsysto-reply-blue.svg">
 </a>
 
-<a href="http://34.250.247.32:8080/job/testcafe-demo">
-    <img src="http://34.250.247.32:8080/buildStatus/icon?job=testcafe-demo">
+<a href="http://http://34.253.174.158:8080/job/testcafe-demo">
+    <img src="http://http://34.253.174.158:8080/buildStatus/icon?job=testcafe-demo">
 </a>
 
 <a href="https://github.com/DevExpress/testcafe">
