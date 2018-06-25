@@ -1,39 +1,32 @@
 #!/usr/bin/env groovy
 pipeline {
   agent {
-    node {
-      label 'master'
+    docker {
+      image 'browsers'
     }
   }
+
   environment {
-    GIT_SSL_NO_VERIFY=true
+    GIT_SSL_NO_VERIFY = true
   }
 
   stages {
-
-    stage('Run  e2e Tests') {
+    stage('Build and run e2e tests ') {
       steps {
+
         echo "Building ${env.BUILD_ID}"
+
         sh 'mkdir -p reports'
         sh 'npm install'
         sh 'npm run e2edocker'
+
+        publishHTML target: [allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'reports/combined', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '']
       }
     }
   }
-
   post {
-    always{
-      echo 'Publishing reports'
-      cucumber jsonReportDirectory: "./reports/", fileIncludePattern: 'cucumber_report.json', sortingMethod: 'ALPHABETICAL'
-      publishHTML target:[allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'reports/', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '']
-      // Close open browsers
-      sh 'pkill -f chrome || true'
-      sh 'pkill -f firefox || true'
-
-    }
     failure {
       echo 'Build failed!'
-
     }
   }
 }

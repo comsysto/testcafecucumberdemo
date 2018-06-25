@@ -2,8 +2,8 @@
     <img src="https://img.shields.io/badge/comsysto-reply-blue.svg">
 </a>
 
-<a href="http://34.250.247.32:8080/job/testcafe-demo">
-    <img src="http://34.250.247.32:8080/buildStatus/icon?job=testcafe-demo">
+<a href="http://34.253.174.158:8080/job/testcafe-demo">
+    <img src="http://34.253.174.158:8080/buildStatus/icon?job=testcafe-demo">
 </a>
 
 <a href="https://github.com/DevExpress/testcafe">
@@ -21,9 +21,9 @@ Demo that contains a working Jenkins Docker container with included node.js and 
 
 # Jenkins Stuff
 
-## How to **"build"** the image
+## How to **"build"** the images
 
-```npm run buildJenkins```
+```npm run buildContainers```
 
 ## How to **"start"** Jenkins
 

@@ -3,22 +3,26 @@
   "version": "0.0.1",
   "license": "MIT",
   "jenkinsJobPath": "jenkins_home/jobs/",
-  "jenkinsJobConfigPath": "src/config/jobs/",
+  "jenkinsJobConfigPath": "docker/jenkins/config/jobs",
   "scripts": {
-    "testJsonChrome": "./node_modules/.bin/cucumber-js --world-parameters {\\\"browsers\\\":[\\\"chrome\\\"]\\,\\\"exampleUrl\\\":\\\"http://devexpress.github.io/testcafe/example/\\\"\\} --format json:reports/cucumber_report.json",
-    "testJsonFirefox": "./node_modules/.bin/cucumber-js --world-parameters {\\\"browsers\\\":[\\\"firefox\\\"]\\,\\\"exampleUrl\\\":\\\"http://devexpress.github.io/testcafe/example\\\"\\} --format json:reports/cucumber_report.json",
-    "testJsonSlow": "./node_modules/.bin/cucumber-js --world-parameters {\\\"options\\\":{\\\"speed\\\":0.5}\\,\\\"browsers\\\":[\\\"chrome\\\"]\\,\\\"exampleUrl\\\":\\\"http://devexpress.github.io/testcafe/example\\\"\\} --format json:reports/cucumber_report.json",
-    "generateHtmlReport": "node src/reporters/html/htmlGenerator.js",
-    "remoteJsonTest": "./node_modules/.bin/cucumber-js --world-parameters {\\\"options\\\":{\\\"remote\\\":true\\,\\\"speed\\\":0.1}\\,\\\"exampleUrl\\\":\\\"http://devexpress.github.io/testcafe/example\\\"\\} --format json:reports/cucumber_report.json",
-    "testChromeSafariParalel": "./node_modules/.bin/cucumber-js --world-parameters {\\\"browsers\\\":[\\\"chrome\\\",\\\"safari\\\"]\\,\\\"exampleUrl\\\":\\\"http://devexpress.github.io/testcafe/example/\\\"\\} --format json:reports/cucumber_report.json",
-    "e2e": "npm run testJsonChrome; npm run generateHtmlReport",
+    "testJsonChrome": "cucumber-js --world-parameters {\\\"browsers\\\":[\\\"chrome\\\"]\\,\\\"exampleUrl\\\":\\\"http://devexpress.github.io/testcafe/example/\\\"\\} --format json:reports/chrome.json",
+    "testJsonFirefox": "cucumber-js --world-parameters {\\\"browsers\\\":[\\\"firefox\\\"]\\,\\\"exampleUrl\\\":\\\"http://devexpress.github.io/testcafe/example\\\"\\} --format json:reports/firefox.json",
+    "testJsonSlow": "cucumber-js --world-parameters {\\\"options\\\":{\\\"speed\\\":0.5}\\,\\\"browsers\\\":[\\\"chrome\\\"]\\,\\\"exampleUrl\\\":\\\"http://devexpress.github.io/testcafe/example\\\"\\} --format json:reports/cucumber_report_slow.json",
+    "testJsonRemote": "cucumber-js --world-parameters {\\\"options\\\":{\\\"remote\\\":true\\,\\\"speed\\\":0.1}\\,\\\"exampleUrl\\\":\\\"http://devexpress.github.io/testcafe/example\\\"\\} --format json:reports/cucumber_report.json",
+    "testJsonChromeSafariParalel": "cucumber-js --world-parameters {\\\"browsers\\\":[\\\"chrome\\\",\\\"safari\\\"]\\,\\\"exampleUrl\\\":\\\"http://devexpress.github.io/testcafe/example/\\\"\\} --format json:reports/cucumber_report_remote.json",
+    "generateHtmlReport": "rm -rf reports/combined && node src/reporters/html/prepareJson.js && node src/reporters/html/generateHtml.js",
+    "e2e": "npm run testJsonChrome; npm run testJsonFirefox; npm run generateHtmlReport",
     "e2edocker": "xvfb-run --server-num=99 --server-args='-ac -screen 0 1024x768x16' npm run e2e",
-    "buildJenkins": "mkdir -p $npm_package_jenkinsJobPath && cp -Ra src/config/jobs/* $npm_package_jenkinsJobPath && docker build -t jenkinstescafe .",
-    "startJenkins": "_pwd=\"$(pwd)\" && docker run -d -p 8080:8080 -p 50000:50000 -v $_pwd/jenkins_home:/var/jenkins_home jenkinstescafe:latest",
-    "stopJenkins": "docker stop $(docker ps -q --filter ancestor=jenkinstescafe)"
+    "buildBrowsers": "docker build -t browsers docker/browsers/",
+    "stopBrowsers": "docker stop $(docker ps -qa --filter ancestor=browsers)",
+    "buildJenkins": "mkdir -p $npm_package_jenkinsJobPath && cp -Ra $npm_package_jenkinsJobConfigPath/* $npm_package_jenkinsJobPath && docker build -t jenkinstescafe docker/jenkins/",
+    "startJenkins": "_pwd=\"$(pwd)\" && docker run -d -p 8080:8080 -p 50000:50000 -v $_pwd/jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkinstescafe:latest",
+    "stopJenkins": "docker stop $(docker ps -qa --filter ancestor=jenkinstescafe)",
+    "buildContainers": "npm run buildBrowsers && npm run buildJenkins"
   },
   "bin": {
-    "gherkin-testcafe": "./node_modules/.bin/gherkin-javascript"
+    "gherkin-testcafe": "./node_modules/.bin/gherkin-javascript",
+    "cucumber-js": "./node_modules/.bin/cucumber-js"
   },
   "devDependencies": {
     "cucumber": "4.0.0",
@@ -30,6 +34,7 @@
     "html-entities": "1.2.1",
     "husky": "0.14.3",
     "object.values": "1.0.4",
-    "object.keys": "0.1.0"
+    "object.keys": "0.1.0",
+    "multiple-cucumber-html-reporter": "1.10.1"
   }
 }
