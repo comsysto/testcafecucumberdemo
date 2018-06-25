@@ -26,6 +26,9 @@ RUN chown node /opt/.npm-global
 
 # Install with apt
 
+###################################################################################################
+# Possible problem when building on AWS amazon linux: add gpg-agent to list of programs to install
+###################################################################################################
 RUN apt-get update -qqy \
     && apt-get -qqy install \
         wget \
@@ -35,8 +38,9 @@ RUN apt-get update -qqy \
         apt-transport-https \
         software-properties-common \
         xvfb \
-        gpg-agent \
     && rm -rf /var/lib/apt/lists/*
+
+
 
 # Download node installation and install
 RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - \
