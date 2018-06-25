@@ -27,20 +27,22 @@ RUN chown node /opt/.npm-global
 # Install with apt
 
 RUN apt-get update -qqy \
-    && apt-get -qqy --no-install-recommends install \
+    && apt-get -qqy install \
         wget \
         curl \
         ca-certificates \
-        bzip2
-
-# Install xvfb with apt
-
-RUN apt-get install -qqy xvfb
+        bzip2 \
+        apt-transport-https \
+        software-properties-common \
+        xvfb \
+        gpg-agent \
+    && rm -rf /var/lib/apt/lists/*
 
 # Download node installation and install
-
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash 2>/dev/null
-RUN apt-get install -qqy nodejs
+RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - \
+    && curl -sL https://deb.nodesource.com/setup_8.x | bash 2>/dev/null \
+    && apt-get update -qqy \
+    && apt-get install -qqy nodejs
 
 # Install Chrome Browser
 
@@ -75,9 +77,6 @@ RUN chmod +x /opt/google/chrome/google-chrome
 
 ARG FIREFOX_VERSION=latest
 RUN FIREFOX_DOWNLOAD_URL=$(echo "https://download.mozilla.org/?product=firefox-$FIREFOX_VERSION&os=linux64&lang=en-US") \
-
-#  RUN FIREFOX_DOWNLOAD_URL=$(if [ $FIREFOX_VERSION = "latest" ] || [ $FIREFOX_VERSION = "nightly-latest" ] || [ $FIREFOX_VERSION = "devedition-latest" ]; then echo "https://download.mozilla.org/?product=firefox-$FIREFOX_VERSION-ssl&os=linux64&lang=en-US"; else echo "https://download-installer.cdn.mozilla.net/pub/firefox/releases/$FIREFOX_VERSION/linux-x86_64/en-US/firefox-$FIREFOX_VERSION.tar.bz2"; fi) \
-
   && apt-get update -qqy \
   && apt-get -qqy install firefox \
   && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
