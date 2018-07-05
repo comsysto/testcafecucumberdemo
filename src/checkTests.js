@@ -11,7 +11,7 @@ for (var i = 0; i < mergedOutputJson.length; i++) {
     for (var j = 0; j < mergedOutputJson[i].elements[0].steps.length; j++) {
 
         if(mergedOutputJson[i].elements[0].steps[j].result.status === 'failed'){
-            process.exit(45);
+            process.exit(1);
         }
     }
 }
