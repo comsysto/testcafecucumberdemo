@@ -21,6 +21,25 @@ pipeline {
         sh 'npm install'
         sh 'npm run e2edocker'
 
+        publishHTML target: [allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'reports/combined', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '']
+
+        script {
+          def result = sh script: 'node src/checkTests.js', returnStatus: true
+          if (result != 0) {
+
+            echo 'Check log for failed e2e tests!'
+            currentBuild.result = 'FAILURE'
+            return
+          }
+        }
+      }
+    }
+
+    stage('Publish reports ') {
+      steps {
+
+        echo "Publishing reports: "
+
         publishHTML target: [allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'reports/combined', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '']
 
         script {
@@ -34,6 +53,8 @@ pipeline {
         }
       }
     }
+
+
   }
   post {
     failure {
