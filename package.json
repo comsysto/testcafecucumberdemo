@@ -39,6 +39,6 @@
     "husky": "0.14.3",
     "object.values": "1.0.4",
     "object.keys": "0.1.0",
-    "multiple-cucumber-html-reporter": "1.10.1"
+    "multiple-cucumber-html-reporter": "1.10.2"
   }
 }
