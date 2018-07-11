@@ -3,7 +3,7 @@
 </a>
 
 <a href="http://testcafedemo.comsysto.com:8080/job/testcafe-demo">
-    <img src="http://testcafedemo.comsysto.com:8080/buildStatus/icon?job=testcafe-demo">
+    <img src="http://testcafedemo.comsysto.com:8080/buildStatus/icon?job=testcafe-demo/master">
 </a>
 
 <a href="https://github.com/DevExpress/testcafe">
