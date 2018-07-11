@@ -13,12 +13,10 @@ pipeline {
   stages {
     stage('Build and run e2e tests ') {
       steps {
-
-        echo "Building Job with ID ${env.BUILD_ID}"
-
-        sh 'mkdir -p reports'
-       sh 'npm install'
-       sh 'npm run e2edocker'
+         echo "Building Job with ID ${env.BUILD_ID}"
+         sh 'mkdir -p reports'
+         sh 'npm install'
+         sh 'npm run e2edocker'
       }
     }
 
@@ -29,19 +27,19 @@ pipeline {
           Date date = new Date()
           String datePart = date.format("dd/MM/yyyy")
           String timePart = date.format("HH:mm:ss")
-          def DATETIME = '_' + datePart + '_' + timePart
-          publishHTML target: [allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'reports/combined', reportFiles: 'index.html', reportName: 'HTML Report'+ DATETIME, reportTitles: '']
+          GString DATETIME = "_${datePart}_${timePart}"
+          publishHTML target: [allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: "reports/combined", reportFiles: "index.html", reportName: "HTML Report${DATETIME}", reportTitles: ""]
         }
       }
     }
     stage('Cleaning up') {
       steps{
         script {
-          def result = sh script: 'node src/checkTests.js', returnStatus: true
+          def result = sh script: "node src/checkTests.js", returnStatus: true
           if (result != 0) {
 
-            echo 'Check log for failed e2e tests!'
-            currentBuild.result = 'FAILURE'
+            echo "Check log for failed e2e tests!"
+            currentBuild.result = "FAILURE"
             return
           }
         }
