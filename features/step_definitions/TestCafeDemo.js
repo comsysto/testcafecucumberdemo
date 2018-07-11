@@ -1,8 +1,7 @@
-var { Given, When, Then } = require('cucumber');
+const { Given, When, Then } = require('cucumber');
+const Selector = require('testcafe').Selector;
 
-var Selector = require('testcafe').Selector;
-
-var testController = null;
+let testController = null;
 
 Given('Peter is on the TestCafe Example page', function () {
     const parameters = this.parameters;
@@ -47,21 +46,21 @@ Then('there should be at most {int} radio buttons on the page', function (rbbtnn
         .expect(htmlRadioButtons.count).lte(rbbtnnumbercallback, 'there are at most three radio buttons on the page');
 });
 
-Given('The {string} checkbox is not checked', function (string) {
+Given('The {string} checkbox is not checked', function () {
     const htmlCheckbox = Selector('#tried-test-cafe').with({ boundTestRun: testController });
 
     return testController
         .expect(htmlCheckbox.checked).notOk();
 });
 
-When('Peter clicks the {string} checkbox', function (string) {
+When('Peter clicks the {string} checkbox', function () {
     const htmlCheckbox = Selector('#tried-test-cafe').with({ boundTestRun: testController });
 
     return testController
         .click(htmlCheckbox);
 });
 
-Then('the {string} should be checked', function (string) {
+Then('the {string} should be checked', function () {
     const htmlCheckbox = Selector('#tried-test-cafe').with({ boundTestRun: testController });
 
     return testController

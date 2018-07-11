@@ -1,5 +1,5 @@
 const report = require('multiple-cucumber-html-reporter');
-var reportTitle = "TestCafe Demo HTML Report";
+const reportTitle = "TestCafe Demo HTML Report";
 
 report.generate({
     jsonDir: 'reports',

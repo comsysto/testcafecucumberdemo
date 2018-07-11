@@ -1,4 +1,4 @@
-var testControllerHolder = {
+let testControllerHolder = {
     testController: null,
 
     captureResolver: null,

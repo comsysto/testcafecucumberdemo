@@ -1,4 +1,4 @@
-var { setWorldConstructor } = require('cucumber');
+const { setWorldConstructor } = require('cucumber');
 const testControllerHolder = require('./testControllerHolder');
 
 function CustomWorld({ parameters }) {

@@ -1,17 +1,21 @@
-var { BeforeAll, AfterAll, Formatter, setDefaultTimeout } = require('cucumber');
+const { BeforeAll, AfterAll, setDefaultTimeout } = require('cucumber');
 const fs = require('fs');
 const createTestCafe = require('testcafe');
 const qrcode = require('qrcode-terminal');
 const testControllerHolder = require('../support/testControllerHolder');
 
-var testcafe = null;
-var runner = null;
-var DELAY = 5000;
-// defines how long will TestaCafe wailt for the remote browser to kick in. For more details: https://github.com/cucumber/cucumber-js/blob/master/docs/support_files/timeouts.md
+let testcafe = null;
+let runner = null;
+let DELAY = 5000;
+
+/**
+ * Defines how long will TestCafe wait for the remote browser to kick in.
+ * For more details: https://github.com/cucumber/cucumber-js/blob/master/docs/support_files/timeouts.md
+ */
 setDefaultTimeout(60000);
 
 /**
- * Testcafe needs default structure and since we are using cucumber-js, we need to create it on the fly programatically. After all the tests have run, the test.js will be deleted.
+ * TestCafe needs default structure and since we are using cucumber-js, we need to create it on the fly programmatically. After all the tests have run, the test.js will be deleted.
  */
 function createTestFile() {
     fs.writeFileSync('test.js',
@@ -64,11 +68,11 @@ function runRemoteTest(tcOptions) {
             return testcafe.createBrowserConnection();
         })
         .then(remoteConnection => {
-
-            // Outputs remoteConnection.url so that it can be visited from the remote browser.
+            /**
+             * Outputs remoteConnection.url so that it can be visited from the remote browser.
+             */
             console.log(remoteConnection.url);
             qrcode.generate(remoteConnection.url);
-
 
             remoteConnection.once('ready', () => {
                 runner
@@ -86,12 +90,11 @@ function runRemoteTest(tcOptions) {
 BeforeAll(function (callback) {
     createTestFile();
 
-    // TOOD move config to json file if possible?
+    // TODO move config to json file if possible?
     const parameters = JSON.parse(this.process.argv[3]);
     const tcOptions = parameters.options || {};
     const browsers = parameters.browsers || 'chrome';
     tcOptions.remote ? runRemoteTest(tcOptions) : runTest(browsers, parameters);
-    
     setTimeout(callback, DELAY);
 });
 
