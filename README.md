@@ -52,7 +52,7 @@ Cucumber.js is a JavaScript implementation of Cucumber and it is used for runnin
 # Getting started with the Demo
 
 This project is built here:
-<p align="left"><img src="./doc/testcafewebtype.gif" width="60%"></p>
+<a href="http://testcafedemo.comsysto.com:8080/job/testcafe-demo"><img src="./doc/testcafewebtype.gif" width="60%"></p>
 
 So you can check it out without building it.
 
