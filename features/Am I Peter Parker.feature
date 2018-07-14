@@ -8,7 +8,7 @@ Feature: Peter asks him self, am I Peter Parker?
 
 		When He types his <Name> in the name input filed
 
-		Then name input filed should contain "This must fail"
+		Then name input filed should contain "Peter"
 		And should not contain "Potter"
 
 
