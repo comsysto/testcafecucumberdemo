@@ -53,7 +53,7 @@ Cucumber.js is a JavaScript implementation of Cucumber and it is used for runnin
 
 This project is pre-built here:
 
-<a href="http://testcafedemo.comsysto.com:8080/job/testcafe-demo"><img src="https://gph.to/2LhDhvX" width="60%"></p>
+<a href="http://testcafedemo.comsysto.com:8080/job/testcafe-demo"><img src="https://media.giphy.com/media/biKBDMA6xOKajB5cfh/giphy.gif" width="60%"></p>
 
 ## How does it work?
 
