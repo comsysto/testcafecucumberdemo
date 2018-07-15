@@ -17,6 +17,8 @@
     "generateHtmlReport": "rm -rf reports/combined && node src/reporters/html/prepareJson.js && node src/reporters/html/generateHtml.js",
     "e2e": "npm run testJsonChrome; npm run testJsonFirefox; npm run generateHtmlReport",
     "e2edocker": "xvfb-run --server-num=99 --server-args='-ac -screen 0 1024x768x16' npm run e2e",
+    "testJsonChromeDocker": "xvfb-run --server-num=99 --server-args='-ac -screen 0 1024x768x16' npm run testJsonChrome",
+    "testJsonFirefoxDocker": "xvfb-run --server-num=99 --server-args='-ac -screen 0 1024x768x16' npm run testJsonFirefox",
     "buildBrowsers": "docker build -t browsers -f docker/browsers/Dockerfile .",
     "stopBrowsers": "docker stop $(docker ps -qa --filter ancestor=browsers)",
     "buildJenkins": "mkdir -p $npm_package_jenkinsJobPath && cp -Ra $npm_package_jenkinsJobConfigPath/* $npm_package_jenkinsJobPath && docker build -t jenkinstescafe docker/jenkins/",
