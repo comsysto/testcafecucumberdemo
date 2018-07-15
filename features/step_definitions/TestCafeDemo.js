@@ -46,21 +46,21 @@ Then('there should be at most {int} radio buttons on the page', function (rbbtnn
         .expect(htmlRadioButtons.count).lte(rbbtnnumbercallback, 'there are at most three radio buttons on the page');
 });
 
-Given('The {string} checkbox is not checked', function () {
+Given('The {string} checkbox is not checked', function (string) {
     const htmlCheckbox = Selector('#tried-test-cafe').with({ boundTestRun: testController });
 
     return testController
         .expect(htmlCheckbox.checked).notOk();
 });
 
-When('Peter clicks the {string} checkbox', function () {
+When('Peter clicks the {string} checkbox', function (string) {
     const htmlCheckbox = Selector('#tried-test-cafe').with({ boundTestRun: testController });
 
     return testController
         .click(htmlCheckbox);
 });
 
-Then('the {string} should be checked', function () {
+Then('the {string} should be checked', function (string) {
     const htmlCheckbox = Selector('#tried-test-cafe').with({ boundTestRun: testController });
 
     return testController
