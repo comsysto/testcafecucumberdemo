@@ -11,6 +11,22 @@ MAINTAINER Renato Curic "r.curic@reply.de"
 # Run stuff as root
 USER root
 
+# Create global npm folder so we can install npm into it (There were problems with permissions)
+
+RUN mkdir /opt/.npm-global
+
+# Set npm env variable so we use the custom npm folder
+
+ENV NPM_CONFIG_PREFIX=/opt/.npm-global
+
+# Create node user
+
+RUN useradd -ms /bin/sh node
+
+# Give write permissions to folder
+
+RUN chown node /opt/.npm-global
+
 # Install with apt
 
 RUN apt-get update -qqy \
@@ -29,6 +45,12 @@ RUN apt-get update -qqy \
          apt-get install -qqy docker-ce && \
          usermod -aG docker jenkins
 
+# Download node installation and install
+RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - \
+    && curl -sL https://deb.nodesource.com/setup_8.x | bash 2>/dev/null \
+    && apt-get update -qqy \
+    && apt-get install -qqy nodejs
+
 # Disable Jenkins manual setup
 
 ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
@@ -46,6 +68,20 @@ RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
 # Add jenkins user to sudo group so we can run docker under jenkins user
 
 RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
+
+# Install as node (npm does not recommend to install npm as root, also had problems while doing so)
+
+USER node
+
+# Install npm
+
+RUN npm install -g npm@latest
+RUN npm install -g @angular/cli 2>/dev/null
+
+# Fix problems with npm
+
+RUN npm update
+RUN npm rebuild node-sass
 
 # Change to jenkins user
 
