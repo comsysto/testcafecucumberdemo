@@ -22,7 +22,7 @@
     "buildBrowsers": "docker build -t browsers -f docker/browsers/Dockerfile .",
     "stopBrowsers": "docker stop $(docker ps -qa --filter ancestor=browsers)",
     "buildJenkins": "mkdir -p $npm_package_jenkinsJobPath && cp -Ra $npm_package_jenkinsJobConfigPath/* $npm_package_jenkinsJobPath && docker build -t jenkinstescafe docker/jenkins/",
-    "startJenkins": "_pwd=\"$(pwd)\" && docker run -d -p 8080:8080 -p 50000:50000 -v $_pwd/jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkinstescafe:latest",
+    "startJenkins": "_pwd=\"$(pwd)\" && docker run -d -p 8080:8080 -p 50000:50000 --env JAVA_OPTS=\"-Dorg.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL=30\" -v $_pwd/jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkinstescafe:latest",
     "stopJenkins": "docker stop $(docker ps -qa --filter ancestor=jenkinstescafe)",
     "buildContainers": "npm run buildBrowsers && npm run buildJenkins"
   },
