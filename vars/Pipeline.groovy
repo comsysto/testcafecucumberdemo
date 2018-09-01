@@ -1,15 +1,16 @@
-def build(){
+def build() {
     echo "Building Job with ID ${env.BUILD_ID}"
     sh 'mkdir -p reports'
     sh 'npm install'
 }
-def test(BROWSER){
+
+def test(BROWSER) {
     build()
     sh "npm run testDocker${BROWSER}"
     stash name: "${BROWSER}-report-stash", includes: "**/reports/${BROWSER}.json"
 }
 
-def publishReports(){
+def publishReports() {
     echo "Publishing reports:"
     sh 'rm -rf reports'
     unstash "Firefox-report-stash"
@@ -29,7 +30,7 @@ def publishReports(){
             reportTitles         : ""])
 }
 
-def checkTests(){
+def checkTests() {
     def result = sh script: "node src/checkTests.js", returnStatus: true
     if (result != 0) {
         echo "Check log for failed e2e tests!"
@@ -39,7 +40,7 @@ def checkTests(){
     sh 'rm -rf reports'
 }
 
-def checkForFailure(){
+def checkForFailure() {
     def JOBURL = env.JOB_URL
     if (JOBURL == null) {
         JOBURL = "WARNING: Jenkins URL not set! Set Jenkins URL at http://localhost:8080/configure"
