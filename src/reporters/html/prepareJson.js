@@ -1,7 +1,7 @@
 const osControl = require('os');
 const fsControl = require('fs');
-const pathFileNameChrome = "reports/chrome.json";
-const pathFileNameFirefox = "reports/firefox.json";
+const pathFileNameChrome = "reports/Chrome.json";
+const pathFileNameFirefox = "reports/Firefox.json";
 const jsonChrome = require('../../../' + pathFileNameChrome);
 const jsonFirefox = require('../../../' + pathFileNameFirefox);
 const browserMetadata = require('./metadata.json');
