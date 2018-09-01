@@ -16,15 +16,15 @@ let platformData = {
     version: osRelease
 };
 
-browserMetadata.metadataChrome.platform=platformData;
-browserMetadata.metadataFirefox.platform=platformData;
+browserMetadata.metadataChrome.platform = platformData;
+browserMetadata.metadataFirefox.platform = platformData;
 
 function prepareJson() {
 
-    for (let index of jsonChrome){
+    for (let index of jsonChrome) {
         index.metadata = browserMetadata.metadataChrome;
     }
-    for (let index of jsonFirefox){
+    for (let index of jsonFirefox) {
         index.metadata = browserMetadata.metadataFirefox;
     }
     fsControl.writeFile(pathFileNameChrome, JSON.stringify(jsonChrome, null, 2), 'utf-8', function (err) {
@@ -38,4 +38,5 @@ function prepareJson() {
         }
     });
 }
+
 prepareJson();
