@@ -7,7 +7,7 @@ let mergedOutputJson = require('../reports/combined/merged-output.json');
 
 for (let items of mergedOutputJson) {
     for (let index of items.elements[0].steps) {
-        if(index.result.status === 'failed'){
+        if (index.result.status === 'failed') {
             process.exit(1);
         }
     }
