@@ -28,7 +28,7 @@ function createTestFile() {
 
 /**
  * Runs tests on the host machine.
- * 
+ *
  * @param {array} browsers list of browsers, e.g. ['chrome']
  * @param {Object} tcOptions options that can be passed to TestCafe. For more details see http://devexpress.github.io/testcafe/documentation/using-testcafe/programming-interface/runner.html#run
  */
@@ -38,7 +38,7 @@ function runTest(browsers, tcOptions) {
         .then(function (tc) {
             testcafe = tc;
             runner = tc.createRunner();
-            
+
             return runner
                 .src('./test.js')
                 .browsers(browsers)
@@ -55,7 +55,7 @@ function runTest(browsers, tcOptions) {
 
 /**
  * Exposes url which can be used as entry point for any machine that has access to the machine where tests are running (even mobile device!).
- * 
+ *
  * @param {Object} tcOptions options that can be passed to TestCafe. For more details see http://devexpress.github.io/testcafe/documentation/using-testcafe/programming-interface/runner.html#run
  */
 function runRemoteTest(tcOptions) {
