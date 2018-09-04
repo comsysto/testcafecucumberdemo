@@ -57,7 +57,29 @@ This project is pre-built here:
 
 ## How does it work?
 
-Coming soon...
+![Alt text](doc/TestcafeCucumberDiagram.png?raw=true "What's connected with what?")
+
+We run everything inside Docker.
+
+Jenkins is built using the Jenkins LTS Docker Image. On top of that, we install Node and NPM so we can run JS helper scripts for parsing/updating data and generating HTML reports. More configuration is done using Groovy; we copy various configurations, install plugin, we set the default user for accessing Jenkins GUI and we also get rid of stuff like the CSP rules that block us from viewing our HTML reports.
+
+In this project, Jenkins is not triggered by a Git Hook, but instead Jenkins checks for new commits on GitHub. Not necessary a best practice because we use resources on our master node every couple of minutes to scan for changes on GitHub but this way the project is made to run on each and every machine without the need to do any initial configuration.
+
+After we start our preconfigured job manually or it gets triggered by a change in the code (Git) Jenkins will execute the Pipeline that's defined in the Jenkinsfile.
+
+
+
+
+
+To get to this point where Jenkins is set up and running the way we want it to run, we will simply install necessary npm modules ("npm install") and after that we will build the Docker image ("npm run buildJenkins").
+
+Now we can move on to the Docker container that will be used by Jenkins to run the test code.
+
+
+
+Never run resource intensive stuff on your Jenkins master node, always use slaves.
+
+
 
 ## Docker Stuff
 
