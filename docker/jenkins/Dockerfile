@@ -2,7 +2,6 @@
 # Dockerfile to build Jenkins container images
 # Based on Jenkins LTS Docker Image
 # Built for TestCafe and Cucumber.js
-# Includes working Chrome and Firefox Browsers
 ############################################################
 
 FROM jenkins/jenkins:lts
