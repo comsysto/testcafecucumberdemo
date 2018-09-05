@@ -53,7 +53,7 @@ Cucumber.js is a JavaScript implementation of Cucumber and it is used for runnin
 
 This project is pre-built here:
 
-<a href="http://testcafedemo.comsysto.com:8080/job/testcafe-demo"><img src="https://media.giphy.com/media/biKBDMA6xOKajB5cfh/giphy.gif" width="60%"></p>
+[![](doc/url1.gif?raw=true)](http://testcafedemo.comsysto.com:8080/job/testcafe-demo)
 
 so you can take a look at the Pipeline without downloading or installing anything.
 
@@ -62,7 +62,7 @@ so you can take a look at the Pipeline without downloading or installing anythin
 ![Alt text](doc/TestcafeCucumberDiagram.png?raw=true "What's connected with what?")
 
 We run everything inside Docker so to be able to run the demo you need to have Docker daemon running. If you don't have Docker installed you can get it 
-[https://www.docker.com/get-startedhere]
+[here](https://www.docker.com/get-startedher)
 
 Jenkins is built using the Jenkins LTS Docker Image. On top of that, we install Node and NPM so we can run JS helper scripts for parsing/updating data and generating HTML reports. More configuration is done using Groovy; we copy various configurations, install plugins, we set the default user for accessing Jenkins GUI and we also get rid of stuff like the CSP rules that block us from viewing our HTML reports.
 
