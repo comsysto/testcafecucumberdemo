@@ -62,7 +62,7 @@ so you can take a look at the Pipeline without downloading or installing anythin
 ![Alt text](doc/TestcafeCucumberDiagram.png?raw=true "What's connected with what?")
 
 We run everything inside Docker so to be able to run the demo you need to have Docker daemon running. If you don't have Docker installed you can get it 
-https://www.docker.com/get-startedhere
+[https://www.docker.com/get-startedhere]
 
 Jenkins is built using the Jenkins LTS Docker Image. On top of that, we install Node and NPM so we can run JS helper scripts for parsing/updating data and generating HTML reports. More configuration is done using Groovy; we copy various configurations, install plugins, we set the default user for accessing Jenkins GUI and we also get rid of stuff like the CSP rules that block us from viewing our HTML reports.
 
