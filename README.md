@@ -61,9 +61,9 @@ This project is pre-built here:
 
 We run everything inside Docker.
 
-Jenkins is built using the Jenkins LTS Docker Image. On top of that, we install Node and NPM so we can run JS helper scripts for parsing/updating data and generating HTML reports. More configuration is done using Groovy; we copy various configurations, install plugin, we set the default user for accessing Jenkins GUI and we also get rid of stuff like the CSP rules that block us from viewing our HTML reports.
+Jenkins is built using the Jenkins LTS Docker Image. On top of that, we install Node and NPM so we can run JS helper scripts for parsing/updating data and generating HTML reports. More configuration is done using Groovy; we copy various configurations, install plugins, we set the default user for accessing Jenkins GUI and we also get rid of stuff like the CSP rules that block us from viewing our HTML reports.
 
-In this project, Jenkins is not triggered by a Git Hook, but instead Jenkins checks for new commits on GitHub. Not necessary a best practice because we use resources on our master node every couple of minutes to scan for changes on GitHub but this way the project is made to run on each and every machine without the need to do any initial configuration.
+In this project, Jenkins is not triggered by a Git Hook, but instead Jenkins checks for new commits on GitHub. Not necessary the best practice because we use resources on our master node every couple of minutes to scan for changes on GitHub but this way the project is made to run on each and every machine without the need to do any initial configuration.
 
 After we start our preconfigured job manually or it gets triggered by a change in the code (Git) Jenkins will execute the Pipeline that's defined in the Jenkinsfile.
 
@@ -71,8 +71,14 @@ After we start our preconfigured job manually or it gets triggered by a change i
 
 
 
-To get to this point where Jenkins is set up and running the way we want it to run, we will simply install necessary npm modules ("npm install") and after that we will build the Docker image ("npm run buildJenkins").
-
+To get to this point where Jenkins is set up and running the way we want it to run, we will simply install necessary npm modules
+```bash
+npm install
+```
+and after that we will build the Docker image 
+```bash
+npm run buildJenkins
+```
 Now we can move on to the Docker container that will be used by Jenkins to run the test code.
 
 
@@ -87,7 +93,9 @@ The software is running inside Docker so you need to have Docker daemon running 
 
 ### How to **"build"** the images needed to run Jenkins?
 
-```npm run buildContainers```
+```bash
+npm run buildContainers
+```
 
 This command will build 2 containers. One being Jenkins with preinstalled plugins and the other one being the container on which the test are actually executed. The tests run in Chrome and Firefox Browser.
 
@@ -101,11 +109,15 @@ Can be found in the Dockerfile:
 
 ### How to **"start"** Jenkins Container?
 
-```npm run startJenkins```
+```bash
+npm run startJenkins
+```
 
 ### How to **"stop"** Jenkins Container?
 
-```npm run stopJenkins```
+```bash
+npm run stopJenkins
+```
 
 ### What to do after you start Jenkins?
 
@@ -128,12 +140,18 @@ Click on the **testcafe-demo** pipeline and start the build by clicking **Build 
 
 #### Install dependencies
 
-```npm install```
+```bash
+npm install
+```
 
 #### Run tests
 
-```npm run e2e```
+```bash
+npm run e2e
+```
 
 #### How to run the tests and slow down mouse and keyboard interaction so you can see what happens when the tests are executed?
 
-```npm run testJsonSlow```
+```bash
+npm run testJsonSlow
+```
