@@ -1,6 +1,5 @@
 const { Given, When, Then } = require('cucumber');
-const { Selector, ClientFunction } = require('testcafe');
-
+const { Selector } = require('testcafe');
 let testController = null;
 
 /*
@@ -71,67 +70,3 @@ Then('the {string} should be checked', function (string) {
         .expect(htmlCheckbox.checked).ok();
 });
 
-/*
-In this section we are testing the Comsysto Reply web page.
- */
-
-Given('Ana wants to view the list of all Comsysto Reply blog posts', function () {
-    const parameters = this.parameters;
-
-    return this.waitForTestController().then(function (tc) {
-        testController = tc;
-
-        return testController
-            .navigateTo(parameters.comsystoReplyUrl);
-    });
-});
-
-When('she clicks the Blog post link', function () {
-    const htmlBlogButton = Selector('.nav-link-text-mobile').with({ boundTestRun: testController }).withText('Blog');
-
-    return testController
-        .click(htmlBlogButton);
-});
-
-Then('she should see the list of all blog posts', function () {
-    const htmlBlogListExists = Selector('.w-dyn-list').with({ boundTestRun: testController }).exists;
-
-    return testController
-        .expect(htmlBlogListExists).ok();
-});
-
-Given('Ana is on the list of all Comsysto Reply blog posts', function () {
-    const parameters = this.parameters;
-    const htmlBlogButton = Selector('.nav-link-text-mobile').with({ boundTestRun: testController }).withText('Blog');
-
-    return this.waitForTestController().then(function (tc) {
-        testController = tc;
-
-        return testController
-            .navigateTo(parameters.comsystoReplyUrl)
-            .click(htmlBlogButton);
-    });
-});
-
-When('she clicks the Open Nebula blog post', function () {
-    const htmlOpenNebulaBlog = Selector('.card-h').with({ boundTestRun: testController }).withText('Private Cloud Infrastructure with OpenNebula');
-
-    return testController
-        .expect(htmlOpenNebulaBlog).ok();
-});
-
-Then('she should see the Open Nebula blog post', function () {
-    const htmlBlogContent = Selector('.w-container').with({ boundTestRun: testController }).exists;
-    const getWindowLocation = ClientFunction(function () {
-        return window.location
-    });
-
-    const getLocation = getWindowLocation.with({ boundTestRun: testController });
-    getLocation().then(function (locationData) {
-
-        return testController
-            .expect(htmlBlogContent).ok()
-            .expect(locationData.href()).contains("private-cloud-infrastructure-with-opennebula");
-    });
-
-});
