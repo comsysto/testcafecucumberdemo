@@ -1,5 +1,5 @@
 const { Given, When, Then } = require('cucumber');
-const { Selector, ClientFunction } = require('testcafe');
+const { ClientFunction } = require('testcafe');
 const Page = require('./pageObjects/ComsystoBlog');
 const page = new Page();
 let testController = null;
