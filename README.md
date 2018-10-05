@@ -57,7 +57,7 @@ This project is pre-built here:
 
 so you can take a look at the Pipeline without downloading or installing anything.
 
-## How does it work?
+## How does it all work?
 
 ![Alt text](doc/TestcafeCucumberDiagram.png?raw=true "What's connected with what?")
 
@@ -79,17 +79,26 @@ Jenkins will be setup up with all necessary plugins installed.
 You can update the list of plugins here: **src/config/plugins.txt**
 > You can also use this file to update your plugins. Just bump the version in the file and re-build the Docker Image.
 
+### How to build the Project?
+
 To get to this point where Jenkins is set up and running the way we want it to run, we will simply install necessary npm modules
 
 ```bash
 npm install
 ```
-and after that we will build the Docker image 
+> We are doing this locally on our workstation 
+
+and after that we will build the Docker images: 
 ```bash
 npm run buildContainers
 ```
+With the previous command we actually run 2 npm scripts:
+```bash
+npm run buildBrowsers && npm run buildJenkins
+```
+This command will build 2 containers. One being Jenkins and the other one being the container on which the test are actually executed (the Slave). 
 
-This command will build 2 containers. One being Jenkins and the other one being the container on which the test are actually executed. 
+> As you can see, many useful commands have been converted to npm scripts. Check them out in the [package.json](./package.json) file
 
 The "browsers" container also contains Node and NPM as well as 2 browsers, Chrome and Firefox. When the Jenkins Pipeline is triggered, the tests run in parallel in both browsers.
 
@@ -99,8 +108,7 @@ Details about the containers can be found in the Dockerfile:
 
 [docker/browsers/Dockerfile](./docker/jenkins/Dockerfile)
 
-> Most of the code is commented so you can use it as documentation.
-
+> Most of the code is well commented so you can use it as documentation.
 
 ### How to start Jenkins Container?
 
@@ -108,11 +116,27 @@ Details about the containers can be found in the Dockerfile:
 npm run startJenkins
 ```
 
+This npm script will run the following command:
+
+```bash
+_pwd=\"$(pwd)\" && docker run -d -p 8080:8080 -p 50000:50000 --env JAVA_OPTS=\"-Dorg.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL=30\" -v $_pwd/jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkinstescafe:latest
+```
+
+First we store the current working folder so we can use that value for setting the correct path for the jenkins_home parameter. The tests take a long time to execute and Jenkins by default will think that the Cucumber process is hanging and will break the build. In our case we set the heart beat check option to a custom value to bypass the problem.
+
+We also pass our local Docker socket to the container so the container it self can spawn new containers on the host machine. Since the Jenkins slave is also a Docker container the setup comes in quite handy. 
+
 ### How to stop Jenkins Container?
 
+If you want to stop the Jenkins container execute the following npm script:
 ```bash
 npm run stopJenkins
 ```
+will call up the following command:
+```bash
+docker stop $(docker ps -qa --filter ancestor=jenkinstescafe)
+```
+and stop all running instances of the Jenkins container.
 
 ### What to do after you start Jenkins?
 
