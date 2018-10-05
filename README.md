@@ -15,7 +15,7 @@
 </a>
 
 
-# TestCafe and Cucumber.js Demo
+# Test Automation with TestCafe and Cucumber.js
 
 This project builds and runs e2e tests with TestCafe and Cucumber.js inside Jenkins pipeline
 
@@ -53,50 +53,98 @@ Cucumber.js is a JavaScript implementation of Cucumber and it is used for runnin
 
 This project is pre-built here:
 
-<a href="http://testcafedemo.comsysto.com:8080/job/testcafe-demo"><img src="https://media.giphy.com/media/biKBDMA6xOKajB5cfh/giphy.gif" width="60%"></p>
+[![](doc/url1.gif?raw=true)](http://testcafedemo.comsysto.com:8080/job/testcafe-demo)
 
-## How does it work?
+so you can take a look at the Pipeline without downloading or installing anything.
 
-Coming soon...
+## How does it all work?
 
-## Docker Stuff
+![Alt text](doc/TestcafeCucumberDiagram.png?raw=true "What's connected with what?")
 
-The software is running inside Docker so you need to have Docker daemon running to start with the Demo.
+We run everything inside Docker so to be able to run the demo yourself you need to have Docker daemon running. If you don't have Docker installed you can get it 
+[here](https://www.docker.com/get-startedher)
 
-### How to **"build"** the images needed to run Jenkins?
+Jenkins is built using the Jenkins LTS Docker Image. On top of that, we install Node and NPM so we can run JS helper scripts for parsing/updating data and generating HTML reports. More configuration is done using Groovy; we copy various configurations, install plugins, we set the default user for accessing Jenkins GUI and we also get rid of stuff like the CSP rules that block us from viewing our HTML reports.
 
-```npm run buildContainers```
+In this project, Jenkins is not triggered by a Git Hook, but instead Jenkins checks for new commits on GitHub. Not necessary the best practice because we use resources on our master node every couple of minutes to scan for changes on GitHub but this way the project is made to run on each and every machine without the need to do any initial configuration.
 
-This command will build 2 containers. One being Jenkins with preinstalled plugins and the other one being the container on which the test are actually executed. The tests run in Chrome and Firefox Browser.
+> Avoid running resource intensive stuff on your Jenkins master node, use slaves.
 
-#### Details about the containers
+Jenkins has a default job configured that build this project, executed the e2e tests and produces HTML reports. You can add more job configurations here: **src/config/jobs**
 
-Can be found in the Dockerfile:
+After we start our preconfigured job manually or it gets triggered by a change in the code (Git) Jenkins will execute the Pipeline that's defined in the Jenkinsfile.
+
+
+Jenkins will be setup up with all necessary plugins installed.
+You can update the list of plugins here: **src/config/plugins.txt**
+> You can also use this file to update your plugins. Just bump the version in the file and re-build the Docker Image.
+
+### How to build the Project?
+
+To get to this point where Jenkins is set up and running the way we want it to run, we will simply install necessary npm modules
+
+```bash
+npm install
+```
+> We are doing this locally on our workstation 
+
+and after that we will build the Docker images: 
+```bash
+npm run buildContainers
+```
+With the previous command we actually run 2 npm scripts:
+```bash
+npm run buildBrowsers && npm run buildJenkins
+```
+This command will build 2 containers. One being Jenkins and the other one being the container on which the test are actually executed (the Slave). 
+
+> As you can see, many useful commands have been converted to npm scripts. Check them out in the [package.json](./package.json) file
+
+The "browsers" container also contains Node and NPM as well as 2 browsers, Chrome and Firefox. When the Jenkins Pipeline is triggered, the tests run in parallel in both browsers.
+
+Details about the containers can be found in the Dockerfile:
 
 [docker/jenkins/Dockerfile](./docker/jenkins/Dockerfile)
 
 [docker/browsers/Dockerfile](./docker/jenkins/Dockerfile)
 
-### How to **"start"** Jenkins Container?
+> Most of the code is well commented so you can use it as documentation.
 
-```npm run startJenkins```
+### How to start Jenkins Container?
 
-### How to **"stop"** Jenkins Container?
+```bash
+npm run startJenkins
+```
 
-```npm run stopJenkins```
+This npm script will run the following command:
+
+```bash
+_pwd=\"$(pwd)\" && docker run -d -p 8080:8080 -p 50000:50000 --env JAVA_OPTS=\"-Dorg.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL=30\" -v $_pwd/jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkinstescafe:latest
+```
+
+First we store the current working folder so we can use that value for setting the correct path for the jenkins_home parameter. The tests take a long time to execute and Jenkins by default will think that the Cucumber process is hanging and will break the build. In our case we set the heart beat check option to a custom value to bypass the problem.
+
+We also pass our local Docker socket to the container so the container it self can spawn new containers on the host machine. Since the Jenkins slave is also a Docker container the setup comes in quite handy. 
+
+### How to stop Jenkins Container?
+
+If you want to stop the Jenkins container execute the following npm script:
+```bash
+npm run stopJenkins
+```
+will call up the following command:
+```bash
+docker stop $(docker ps -qa --filter ancestor=jenkinstescafe)
+```
+and stop all running instances of the Jenkins container.
 
 ### What to do after you start Jenkins?
 
 Access it on **http://localhost:8080**
 
-Jenkins will be setup up with all necessary plugins installed.
-You can update the list of plugins here: **src/config/plugins.txt**
+with default username **admin** and password **admin**.
 
-Jenkins will have a default admin user as well. Default username **admin** and password **admin**
-
-You can choose to disable this by editing **src/bin/security.groovy**
-
-Jenkins has a default job configured that build this project, executed the e2e tests and produces HTML reports. You can add more job configurations here: **src/config/jobs**
+> You can change the default admin password later through the Jenkins admin console or in the [docker/jenkins/bin/security.groovy](./docker/jenkins/bin/security.groovy) config file. Don't forget to build the Docker Image after you make a change.
 
 Click on the **testcafe-demo** pipeline and start the build by clicking **Build Now**
 
@@ -106,12 +154,18 @@ Click on the **testcafe-demo** pipeline and start the build by clicking **Build 
 
 #### Install dependencies
 
-```npm install```
+```bash
+npm install
+```
 
 #### Run tests
 
-```npm run e2e```
+```bash
+npm run e2e
+```
 
 #### How to run the tests and slow down mouse and keyboard interaction so you can see what happens when the tests are executed?
 
-```npm run testJsonSlow```
+```bash
+npm run testSlow
+```
