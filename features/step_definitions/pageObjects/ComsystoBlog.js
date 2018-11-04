@@ -1,11 +1,10 @@
 const { Selector } = require('testcafe');
 
-var testController = null;
+let testController = null;
 
 class Home {
   constructor() {
     this.blogButton = Selector('.nav-link-text-mobile').with({ boundTestRun: testController });
-
   }
 }
 
