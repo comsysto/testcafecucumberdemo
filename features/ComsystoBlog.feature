@@ -1,5 +1,5 @@
 Feature: Comsysto Reply blog posts
-  As Ana I want to view all the blog post and be able to view the Open nebula blog post as well
+  As Ana I want to view all and specific blog posts
 
   Scenario: View all blog posts
     Given Ana wants to view the list of all Comsysto Reply blog posts
