@@ -18,7 +18,7 @@
     "testRemote": "cucumber-js --world-parameters {\\\"options\\\":{\\\"remote\\\":true\\,\\\"speed\\\":0.1}\\,\\\"exampleUrl\\\":\\\"http://devexpress.github.io/testcafe/example\\\"\\} --format json:reports/cucumber_report.json",
     "testChromeSafariParalel": "cucumber-js --world-parameters {\\\"browsers\\\":[\\\"chrome\\\",\\\"safari\\\"]\\,\\\"exampleUrl\\\":\\\"http://devexpress.github.io/testcafe/example/\\\"\\} --format json:reports/cucumber_report_remote.json",
     "generateHtmlReport": "rm -rf reports/combined && node src/reporters/html/prepareJson.js && node src/reporters/html/generateHtml.js",
-    "e2e": "npm run testChrome; npm run testFirefox; npm run generateHtmlReport",
+    "e2e": "mkdir -p reports; npm run testChrome; npm run testFirefox; npm run generateHtmlReport",
     "e2edocker": "xvfb-run --server-num=99 --server-args='-ac -screen 0 1024x768x16' npm run e2e",
     "testDockerChrome": "xvfb-run --server-num=99 --server-args='-ac -screen 0 1024x768x16' npm run testChrome",
     "testDockerFirefox": "xvfb-run --server-num=99 --server-args='-ac -screen 0 1024x768x16' npm run testFirefox",
