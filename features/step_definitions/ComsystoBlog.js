@@ -12,14 +12,14 @@ const getWindowLocation = ClientFunction(function () {
 In this section we are testing the Comsysto Reply web page.
  */
 
-Given('Ana wants to view the list of all Comsysto Reply blog posts', function () {
+Given('User wants to verify homepage', function () {
   const parameters = this.parameters;
 
   return this.waitForTestController().then(function (tc) {
     testController = tc;
 
     return testController
-      .navigateTo(parameters.comsystoReplyUrl);
+      .navigateTo(parameters.zemogaUrl);
   });
 });
 
@@ -45,7 +45,7 @@ Given('Ana is on the list of all Comsysto Reply blog posts', function () {
     testController = tc;
 
     return testController
-      .navigateTo(parameters.comsystoReplyUrl)
+      .navigateTo(parameters.zemogaUrl)
       .click(blogButton);
   });
 });
@@ -68,23 +68,4 @@ Then('she should see the Open Nebula blog post', function () {
       .expect(locationData.href).contains("private-cloud-infrastructure-with-opennebula");
   });
 
-});
-
-When('she clicks the TestCafe blog post', function () {
-  const link = page.blog.link.with({ boundTestRun: testController }).withText('TEST AUTOMATION WITH TESTCAFE AND CUCUMBER.JS');
-
-  return testController
-    .click(link);
-});
-
-Then('she should see the TestCafe blog post', function () {
-  const blogContent = page.blog.frame.with({ boundTestRun: testController }).exists;
-
-  const getLocation = getWindowLocation.with({ boundTestRun: testController });
-  getLocation().then(function (locationData) {
-
-    return testController
-      .expect(blogContent).ok()
-      .expect(locationData.href).contains("test-automation-with-testcafe-and-cucumber.js");
-  });
 });

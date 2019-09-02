@@ -4,16 +4,16 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/comsysto/testcafecucumberdemo"
+    "url": "https://github.com/rony431/testcafecucumberdemo"
   },
-  "comsystoReplyUrl": "https://comsystoreply.de",
+  "zemogaUrl": "https://comsystoreply.de",
   "testCafeExamplePageUrl": "http://devexpress.github.io/testcafe/example/",
   "jenkinsJobPath": "jenkins_home/jobs/",
   "jenkinsJobConfigPath": "docker/jenkins/config/jobs",
   "scripts": {
-    "testSafari": "cucumber-js --world-parameters {\\\"browsers\\\":[\\\"safari\\\"]\\,\\\"exampleUrl\\\":\\\"$npm_package_testCafeExamplePageUrl\\\"\\,\\\"comsystoReplyUrl\\\":\\\"$npm_package_comsystoReplyUrl\\\"\\} --format json:reports/Chrome.json",
-    "testChrome": "cucumber-js --world-parameters {\\\"browsers\\\":[\\\"chrome\\\"]\\,\\\"exampleUrl\\\":\\\"$npm_package_testCafeExamplePageUrl\\\"\\,\\\"comsystoReplyUrl\\\":\\\"$npm_package_comsystoReplyUrl\\\"\\} --format json:reports/Chrome.json",
-    "testFirefox": "cucumber-js --world-parameters {\\\"browsers\\\":[\\\"firefox\\\"]\\,\\\"exampleUrl\\\":\\\"$npm_package_testCafeExamplePageUrl\\\"\\,\\\"comsystoReplyUrl\\\":\\\"$npm_package_comsystoReplyUrl\\\"\\} --format json:reports/Firefox.json",
+    "testSafari": "cucumber-js --world-parameters {\\\"browsers\\\":[\\\"safari\\\"]\\,\\\"exampleUrl\\\":\\\"$npm_package_testCafeExamplePageUrl\\\"\\,\\\"zemogaUrl\\\":\\\"$npm_package_zemogaUrl\\\"\\} --format json:reports/Chrome.json",
+    "testChrome": "cucumber-js --world-parameters {\\\"browsers\\\":[\\\"chrome\\\"]\\,\\\"exampleUrl\\\":\\\"$npm_package_testCafeExamplePageUrl\\\"\\,\\\"zemogaUrl\\\":\\\"$npm_package_zemogaUrl\\\"\\} --format json:reports/Chrome.json",
+    "testFirefox": "cucumber-js --world-parameters {\\\"browsers\\\":[\\\"firefox\\\"]\\,\\\"exampleUrl\\\":\\\"$npm_package_testCafeExamplePageUrl\\\"\\,\\\"zemogaUrl\\\":\\\"$npm_package_zemogaUrl\\\"\\} --format json:reports/Firefox.json",
     "testSlow": "cucumber-js --world-parameters {\\\"options\\\":{\\\"speed\\\":0.5}\\,\\\"browsers\\\":[\\\"chrome\\\"]\\,\\\"exampleUrl\\\":\\\"http://devexpress.github.io/testcafe/example\\\"\\} --format json:reports/cucumber_report_slow.json",
     "testRemote": "cucumber-js --world-parameters {\\\"options\\\":{\\\"remote\\\":true\\,\\\"speed\\\":0.1}\\,\\\"exampleUrl\\\":\\\"http://devexpress.github.io/testcafe/example\\\"\\} --format json:reports/cucumber_report.json",
     "testChromeSafariParalel": "cucumber-js --world-parameters {\\\"browsers\\\":[\\\"chrome\\\",\\\"safari\\\"]\\,\\\"exampleUrl\\\":\\\"http://devexpress.github.io/testcafe/example/\\\"\\} --format json:reports/cucumber_report_remote.json",

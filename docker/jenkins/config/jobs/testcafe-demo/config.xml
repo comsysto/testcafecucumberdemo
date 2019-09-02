@@ -31,7 +31,7 @@
       <jenkins.branch.BranchSource>
         <source class="jenkins.plugins.git.GitSCMSource" plugin="git@3.9.1">
           <id>5e125b2f-b62a-48c8-9071-0abdcd5b016b</id>
-          <remote>https://github.com/comsysto/testcafecucumberdemo.git</remote>
+          <remote>https://github.com/rony431/testcafecucumberdemo</remote>
           <credentialsId></credentialsId>
           <traits>
             <jenkins.plugins.git.traits.BranchDiscoveryTrait/>
