@@ -4,14 +4,15 @@ let testController = null;
 
 class Home {
   constructor() {
-    this.blogButton = Selector('.nav-link-text-mobile').with({ boundTestRun: testController });
+    this.freeTrialButton = Selector('.video-takeover-hero__content > div > div> div > div > div> div> div > a').with({ boundTestRun: testController });
   }
 }
 
 class Blog {
   constructor() {
-    this.frame = Selector('.w-dyn-list');
-    this.link = Selector('.card.w-dyn-item.w-col.w-col-4').with({ boundTestRun: testController });
+    this.zipButton = Selector('.enterzipcode__input--container>button');
+    this.plans = Selector('.baseplans__plans>div>h3')
+    this.zipCode = Selector('.enterzipcode__input--container>input').with({ boundTestRun: testController });
   }
 }
 

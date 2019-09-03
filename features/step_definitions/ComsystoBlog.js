@@ -12,7 +12,7 @@ const getWindowLocation = ClientFunction(function () {
 In this section we are testing the Comsysto Reply web page.
  */
 
-Given('User wants to verify homepage', function () {
+Given('User wants to verify free trial', function () {
   const parameters = this.parameters;
 
   return this.waitForTestController().then(function (tc) {
@@ -23,49 +23,25 @@ Given('User wants to verify homepage', function () {
   });
 });
 
-When('she clicks the Blog post link', function () {
-  const blogButton = page.home.blogButton.with({ boundTestRun: testController }).withText('Blog');
+When('he clicks on free trial', function () {
+  const freeTrialButton = page.home.freeTrialButton.with({ boundTestRun: testController }).withText('Start Free Trial');
 
   return testController
-    .click(blogButton);
+    .click(freeTrialButton);
 });
 
-Then('she should see the list of all blog posts', function () {
-  const htmlBlogListExists = page.blog.frame.with({ boundTestRun: testController }).exists;
+Then('it enters zip code', function () {
+  const inputZipCode = page.blog.zipCode.with({ boundTestRun: testController });
+  const buttonZipContinue = page.blog.zipButton.with({ boundTestRun: testController });
+  return testController
+    .typeText(inputZipCode,'10001')
+    .click(buttonZipContinue)
+});
+
+
+Then('he should see the plans', function () {
+  const planPage = page.blog.plans.with({ boundTestRun: testController });
 
   return testController
-    .expect(htmlBlogListExists).ok();
-});
-
-Given('Ana is on the list of all Comsysto Reply blog posts', function () {
-  const parameters = this.parameters;
-  const blogButton = page.home.blogButton.with({ boundTestRun: testController }).withText('Blog');
-
-  return this.waitForTestController().then(function (tc) {
-    testController = tc;
-
-    return testController
-      .navigateTo(parameters.zemogaUrl)
-      .click(blogButton);
-  });
-});
-
-When('she clicks the Open Nebula blog post', function () {
-  const link = page.blog.link.with({ boundTestRun: testController }).withText('PRIVATE CLOUD INFRASTRUCTURE WITH OPENNEBULA');
-
-  return testController
-    .click(link);
-});
-
-Then('she should see the Open Nebula blog post', function () {
-  const blogContent = page.blog.frame.with({ boundTestRun: testController }).exists;
-
-  const getLocation = getWindowLocation.with({ boundTestRun: testController });
-  getLocation().then(function (locationData) {
-
-    return testController
-      .expect(blogContent).ok()
-      .expect(locationData.href).contains("private-cloud-infrastructure-with-opennebula");
-  });
-
+    .expect(planPage).ok('Plan page is being opened')
 });
