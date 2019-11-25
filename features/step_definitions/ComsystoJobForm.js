@@ -3,79 +3,64 @@ const { Selector } = require('testcafe');
 let testController = null;
 
 // FEATURE 1 BEGIN
-Given('Ana wants to apply for a job at Comsysto Reply', callback => {
-  callback(null, 'passed');
-});
-
-When('she arrives to the job post area', function() {
+Given('Ana is on job post page', function() {
   return this.waitForTestController().then(function(tc) {
     testController = tc;
     return testController.navigateTo('https://comsystoreply.de/karriere/jobs');
   });
 });
 
-Then('she should choose the data engineer job post', async function() {
+When('she clicks on data engineer job post', async function() {
   const dataEngineerPostElement = Selector('.card-content').nth(1);
   await testController.click(dataEngineerPostElement);
 });
 
-When('she arrives on the data engineer job overview', async function() {
-  // check if ok here
+Then('she should land on {string} page', async function(string) {
   const mainHeading = Selector('h1').with({ boundTestRun: testController });
-  await testController
-    .expect(mainHeading.textContent)
-    .contains('Data Engineer (m|w)');
+  await testController.expect(mainHeading.textContent).contains(string);
+});
+// FEATURE 1 END
+
+// FEATURE 2 BEGIN
+Given('Ana is on data engineer page', function(callback) {
+  callback(null, 'passed');
 });
 
-Then('she should activate the input form for the job', async function() {
+When('she clicks on apply now', async function() {
   const applyNowButton = Selector('.btn-centered')
     .child()
     .nth(0);
   await testController.click(applyNowButton);
 });
-// FEATURE 1 END
 
-// FEATURE 2 BEGIN
-Given('Ana is on on the data engineer job input form', callback => {
-  callback(null, 'passed');
-});
-
-When('she enters the required fields', async function() {
-  const email = Selector('#fo_email');
+When('fulfils all fields except Email', async function() {
   const firstName = Selector('#fo_firstname');
   const lastName = Selector('#fo_lastname');
   const greeting = Selector('#fo_greeting');
+  const github = Selector('#fo_webprofile');
+  const submitInputFormButton = Selector('#test-submit-button');
 
-  await testController
-    .typeText(email, 't.gajsak@reply.de')
-    .typeText(firstName, 'Tommy')
-    .typeText(lastName, 'Gajsak')
-    .typeText(greeting, 'something to write here');
-});
-
-Then('she accepts the terms and conditions', async function() {
   const acceptTermsButton = Selector('.fo-form__checkbox-custom-label')
     .child()
     .nth(0);
+
+  await testController
+    .typeText(firstName, 'Tommy')
+    .typeText(lastName, 'Gajsak')
+    .typeText(github, 'https://github.com/gajo4256?tab=repositories')
+    .typeText(greeting, 'something to write here');
+
   await testController.click(acceptTermsButton);
-});
-// FEATURE 2 END
-
-//FEATURE 3 BEGIN
-Given('Ana has entered all the required data', callback => {
-  callback(null, 'passed');
-});
-
-When('she clicks on the submit button', async function() {
-  const submitInputFormButton = Selector('#test-submit-button');
   await testController.click(submitInputFormButton);
 });
 
-Then('she should navigate to the success page', async function() {
-  const mainHeading = Selector('h1').with({ boundTestRun: testController });
-
-  await testController.expect(mainHeading.textContent).contains('bewerben');
-  // put 3s of waiting to not end abruptly
+Then('appropriate error message is shown', async function() {
+  const mailErrorField = Selector('.fo-form__field-error ').with({
+    boundTestRun: testController
+  });
+  await testController
+    .expect(mailErrorField.textContent)
+    .contains('Muss angegeben werden');
   await testController.wait(3000);
 });
-//FEATURE 3 END
+// FEATURE 2 END
